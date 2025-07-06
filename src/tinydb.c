@@ -1,15 +1,37 @@
 #include "../include/tinydb.h"
+#include <stdio.h>
+#include <string.h>
+#include <stdlib.h>
 
-/* **Função `db_create()`:**
-1. Alocar memória para a estrutura database_t
-2. Duplicar o nome do arquivo
-3. Abrir arquivo em modo "wb+" (escrita binária + leitura)
-4. Inicializar o header com valores padrão
-5. Escrever header no início do arquivo
-6. Retornar ponteiro para database ou NULL em caso de erro
-*/
 database_t* db_create(const char* filename) {
+    database_t* db = malloc(sizeof(database_t));
+    if (!db) return NULL;
+    db->filename = strdup(filename);
+    if (!db->filename) {
+        free(db);
+        return NULL;
+    }
+    db->file = fopen(filename, "wb+");
+    if (!db->file) {
+        free(db->filename);
+        free(db);
+        return NULL;
+    }
 
+    // inicializa o header 
+    db->header.magic = MAGIC_NUM;
+    db->header.version = VERSION;
+    db->header.deleted_count = 0;
+    db->header.record_count = 0;
+    db->header.next_id = 1000;
+
+    fseek(db->file, 0, SEEK_SET);
+    if(fwrite(&db->header, sizeof(db_header_t), 1, db->file) != 1){
+        fprintf(stderr, "db_create() failed");
+        return NULL;
+    }
+
+    return db;
 }
 
 
