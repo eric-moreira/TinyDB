@@ -9,6 +9,8 @@
 #define VERSION 1
 #define MAX_NAME_LEN 64
 #define MAX_EMAIL_LEN 128
+#define ERROR(msg) fprintf(stderr, "ERROR: %s\n", msg)
+
 
 typedef struct {
     uint32_t magic; 
