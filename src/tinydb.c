@@ -79,8 +79,16 @@ database_t* db_open(const char* filename){
 
 }
 
+void db_close(database_t* db){
+    if(db && db->is_open){
+        fseek(db->file, 0, SEEK_SET);
+        fwrite(&db->header, sizeof(db_header_t), 1, db->file);
 
-// TODO
-void db_close(database_t* db);
+        fclose(db->file);
+
+        free(db->filename);
+        free(db);
+    }
+}
 
 int db_insert(database_t* db, const char* name, uint32_t age, const char* email);
