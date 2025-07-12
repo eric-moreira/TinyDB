@@ -4,6 +4,7 @@
 #include <stdint.h>
 #include <stdio.h>
 #include <stdbool.h>
+#include <time.h>
 
 #define MAGIC_NUM 0x65726963 // "eric" in hex
 #define VERSION 1
@@ -32,11 +33,9 @@ typedef struct {
     char name[MAX_NAME_LEN];
     uint8_t age;
     char email[MAX_EMAIL_LEN];
-    uint32_t timestamp;
-    uint8_t reserved[58]; 
+    uint32_t created_at;
+    uint8_t reserved[54]; 
     // espaço reservado para expansões futuras
-    // 256 - 198 = 58 (padding para alocar 256 bytes fixos)
-
 } __attribute__ ((packed)) db_user_t;
 
 

@@ -91,4 +91,26 @@ void db_close(database_t* db){
     }
 }
 
-int db_insert(database_t* db, const char* name, uint32_t age, const char* email);
+int db_insert(database_t* db, const char* name, uint32_t age, const char* email){
+    if(!db || !db->is_open) return -1;
+
+    db_user_t record;
+    memset(&record, 0, sizeof(db_user_t));
+
+    record.id = db->header.next_id++;
+    record.active = 1;
+    strncpy(record.name, name, MAX_NAME_LEN -1);
+    record.age = age;
+    strncpy(record.email, email, MAX_EMAIL_LEN -1);
+    record.created_at = (uint32_t)time(NULL);
+
+    fseek(db->file, 0, SEEK_END);
+
+    if(fwrite(&record, sizeof(db_user_t), 1, db->file) != 1){
+        fprintf(stderr, "fwrite() failed to insert");
+        return -1;
+    }
+    db->header.record_count++;
+    return record.id;
+
+}
