@@ -94,8 +94,8 @@ void db_close(database_t* db){
 int db_insert(database_t* db, const char* name, uint32_t age, const char* email){
     if(!db || !db->is_open) return -1;
 
-    db_user_t record;
-    memset(&record, 0, sizeof(db_user_t));
+    user_record_t record;
+    memset(&record, 0, sizeof(user_record_t));
 
     record.id = db->header.next_id++;
     record.active = 1;
@@ -106,7 +106,7 @@ int db_insert(database_t* db, const char* name, uint32_t age, const char* email)
 
     fseek(db->file, 0, SEEK_END);
 
-    if(fwrite(&record, sizeof(db_user_t), 1, db->file) != 1){
+    if(fwrite(&record, sizeof(user_record_t), 1, db->file) != 1){
         fprintf(stderr, "fwrite() failed to insert");
         return -1;
     }

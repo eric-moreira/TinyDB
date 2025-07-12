@@ -36,7 +36,7 @@ typedef struct {
     uint32_t created_at;
     uint8_t reserved[54]; 
     // espaço reservado para expansões futuras
-} __attribute__ ((packed)) db_user_t;
+} __attribute__ ((packed)) user_record_t;
 
 
 typedef struct {
