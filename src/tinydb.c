@@ -7,7 +7,12 @@
 database_t* db_create(const char* filename) {
     database_t* db = malloc(sizeof(database_t));
     if (!db) return NULL;
-    db->filename = strdup(filename);
+    db->filename = malloc(strlen(filename) + 1);
+    if (!db->filename) {
+            free(db);
+            return NULL;
+    }
+    strcpy(db->filename, filename);
     if (!db->filename) {
         free(db);
         return NULL;
