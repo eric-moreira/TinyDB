@@ -51,7 +51,7 @@ database_t* db_open(const char* filename){
         ERROR("malloc failed");
         return NULL;
     }
-    db->filename = strdup(filename);
+    strcpy(db->filename, filename);
     if(!db->filename){
         free(db);
         return NULL;
