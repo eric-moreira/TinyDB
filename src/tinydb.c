@@ -52,6 +52,7 @@ database_t* db_open(const char* filename){
         return NULL;
     }
     strcpy(db->filename, filename);
+    
     if(!db->filename){
         free(db);
         return NULL;
