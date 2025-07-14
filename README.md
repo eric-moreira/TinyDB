@@ -18,6 +18,7 @@ A simple database engine implementation in C that stores data in binary files.
 - Binary file I/O operations
 - Header management with metadata
 - Memory leak prevention
+- Search by ID
 
 ## Data Structure
 
@@ -82,7 +83,6 @@ TinyDB/
 
 ## Planned Features
 
-- [ ] Search by ID
 - [ ] List all records
 - [ ] Delete records (logical deletion)
 - [ ] Database compaction

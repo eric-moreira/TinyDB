@@ -52,4 +52,6 @@ void db_close(database_t* db);
 
 int db_insert(database_t* db, const char* name, uint32_t age, const char* email);
 
+user_record_t db_search_by_id(database_t* db, uint32_t id);
+
 #endif

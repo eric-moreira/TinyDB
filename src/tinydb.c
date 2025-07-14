@@ -121,3 +121,31 @@ int db_insert(database_t* db, const char* name, uint32_t age, const char* email)
     return record.id;
 
 }
+
+
+/*
+I am using linear search as the db file is using linear writing at this point
+This will change in the future when I create indexes and add_table function 
+*/
+
+user_record_t db_search_by_id(database_t* db, uint32_t id){
+    user_record_t record, not_found = {0};
+    
+    if(!db || !db->is_open){
+        fprintf(stderr, "db is invalid or not open");
+        return not_found;
+    }
+    if(fseek(db->file, sizeof(db_header_t), SEEK_SET) != 0){
+        fprintf(stderr, "fseek failed to fetch the records");
+        return not_found;
+    }
+
+    while(fread(&record, sizeof(user_record_t), 1, db->file) == 1){
+        if(record.id == id) {
+            return record;
+        }
+    }
+
+    return not_found;
+
+}
